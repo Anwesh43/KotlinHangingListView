@@ -35,7 +35,7 @@ class HangingListView(ctx:Context):View(ctx) {
             paint.color = Color.parseColor("#ef5350")
             canvas.drawCircle(0f,y-oy,r,paint)
             canvas.drawLine(0f,0f,0f,y-oy,paint)
-            paint.textSize = r/5
+            paint.textSize = 2*r/5
             paint.color = Color.WHITE
             val trimmedText = TextUtil.getTrimmedText(text,2*r,paint)
             canvas.drawText(trimmedText,-paint.measureText(trimmedText)/2,y-oy,paint)
