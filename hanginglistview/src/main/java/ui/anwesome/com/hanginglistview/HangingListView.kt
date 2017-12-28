@@ -5,9 +5,12 @@ package ui.anwesome.com.hanginglistview
  */
 import android.content.*
 import android.view.*
+import java.util.LinkedList
+import java.util.concurrent.ConcurrentLinkedQueue
 import android.graphics.*
 class HangingListView(ctx:Context):View(ctx) {
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    val texts:LinkedList<String> = LinkedList<>()
     override fun onDraw(canvas:Canvas) {
 
     }
@@ -18,5 +21,16 @@ class HangingListView(ctx:Context):View(ctx) {
             }
         }
         return true
+    }
+    data class HangingItem(var i:Int,var text:String,var x:Float,var r:Float,var y:Float = r/2,var oy:Float = y) {
+        fun draw(canvas:Canvas,paint:Paint,maxY:Float,scale:Float) {
+            y = oy + maxY*scale
+            canvas.save()
+            canvas.translate(x,oy)
+            canvas.drawCircle(0f,y-oy,r,paint)
+            canvas.drawLine(0f,0f,0f,y-oy,paint)
+            canvas.restore()
+        }
+        fun handleTap(x:Float,y:Float):Boolean = x>=this.x-r && x<=this.x+r && y>=this.oy-r && y<=this.oyy+r
     }
 }
