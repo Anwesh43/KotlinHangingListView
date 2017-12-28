@@ -16,7 +16,7 @@ class HangingListView(ctx:Context):View(ctx) {
     override fun onDraw(canvas:Canvas) {
         renderer.render(canvas,paint)
     }
-    fun addText(text:String) {
+    private fun addText(text:String) {
         texts.add(text)
     }
     override fun onTouchEvent(event:MotionEvent):Boolean {
@@ -32,13 +32,18 @@ class HangingListView(ctx:Context):View(ctx) {
             y = oy + maxY*scale
             canvas.save()
             canvas.translate(x,oy)
+            paint.color = Color.parseColor("#ef5350")
             canvas.drawCircle(0f,y-oy,r,paint)
             canvas.drawLine(0f,0f,0f,y-oy,paint)
+            paint.textSize = r/5
+            paint.color = Color.WHITE
+            val trimmedText = TextUtil.getTrimmedText(text,2*r,paint)
+            canvas.drawText(trimmedText,-paint.measureText(trimmedText)/2,y-oy,paint)
             canvas.restore()
         }
         fun handleTap(x:Float,y:Float):Boolean = x>=this.x-r && x<=this.x+r && y>=this.oy-r && y<=this.oy+r
     }
-    data class HangingItemState(var scale:Float = 0f,var dir:Float = 0f) {
+    data class HangingItemState(private var scale:Float = 0f,var dir:Float = 0f) {
         fun startUpdating(startcb:()->Unit) {
             dir = 1f
             scale = 0f
@@ -67,7 +72,7 @@ class HangingListView(ctx:Context):View(ctx) {
             var x = 3*gap/2
             var i = 0
             itemStrings.forEach {
-                items.add(HangingItem(i,it,x,gap/2))
+                items.add(HangingItem(i,it,x,3*gap/4))
                 i++
                 x += 2*gap
             }
@@ -85,7 +90,7 @@ class HangingListView(ctx:Context):View(ctx) {
                     }
                 }
                 else {
-                    it.draw(canvas, paint, h / 2, state.scale)
+                    it.draw(canvas, paint, h / 2, 0f)
                 }
             }
         }
@@ -113,7 +118,6 @@ class HangingListView(ctx:Context):View(ctx) {
                 val w = canvas.width.toFloat()
                 val h = canvas.height.toFloat()
                 hangingList = HangingList(w,h,view.texts)
-                paint.color = Color.parseColor("#ef5350")
                 paint.strokeWidth = Math.min(w,h)/40
                 paint.strokeCap = Paint.Cap.ROUND
             }
