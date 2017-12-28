@@ -102,6 +102,7 @@ class HangingListView(ctx:Context):View(ctx) {
     }
     data class HangingListRenderer(var view:HangingListView,var time:Int = 0) {
         var hangingList:HangingList?=null
+        val animator = HangingViewAnimator(view)
         fun render(canvas:Canvas,paint:Paint) {
             if(time == 0) {
                 val w = canvas.width.toFloat()
@@ -109,14 +110,16 @@ class HangingListView(ctx:Context):View(ctx) {
                 hangingList = HangingList(w,h,view.texts)
             }
             hangingList?.draw(canvas,paint)
-            hangingList?.update{
-
+            animator.update{
+                hangingList?.update{
+                    animator.stop()
+                }
             }
             time++
         }
         fun handleTap(x:Float,y:Float) {
             hangingList?.handleTap(x,y,{
-
+                animator.startUpdating()
             })
         }
     }
