@@ -3,6 +3,7 @@ package ui.anwesome.com.hanginglistview
 /**
  * Created by anweshmishra on 28/12/17.
  */
+import android.app.Activity
 import android.content.*
 import android.view.*
 import java.util.LinkedList
@@ -154,6 +155,20 @@ class HangingListView(ctx:Context):View(ctx) {
             if(animated) {
                 animated = false
             }
+        }
+    }
+    companion object {
+
+        var isShown = false
+        fun create(activity:Activity):HangingListView {
+            var view:HangingListView = HangingListView(activity)
+            return view
+        }
+        fun addText(text:String,view:HangingListView) {
+            view.addText(text)
+        }
+        fun show(activity: Activity,view:HangingListView) {
+            activity.setContentView(view)
         }
     }
 }
