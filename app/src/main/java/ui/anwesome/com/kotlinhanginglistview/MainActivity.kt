@@ -2,6 +2,7 @@ package ui.anwesome.com.kotlinhanginglistview
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import ui.anwesome.com.hanginglistview.HangingListView
 
 class MainActivity : AppCompatActivity() {
@@ -14,5 +15,8 @@ class MainActivity : AppCompatActivity() {
         HangingListView.addText("say my name",view)
         HangingListView.addText("No more",view)
         HangingListView.show(this,view)
+        view.addSelectionListener {text ->
+            Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
+        }
     }
 }
