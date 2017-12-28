@@ -12,12 +12,16 @@ import android.graphics.*
 class HangingListView(ctx:Context):View(ctx) {
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     val texts:LinkedList<String> = LinkedList()
+    var hangingSelectionListener:HangingListSelectionListener ?= null
     val renderer = HangingListRenderer(this)
     override fun onDraw(canvas:Canvas) {
         renderer.render(canvas,paint)
     }
     private fun addText(text:String) {
         texts.add(text)
+    }
+    fun addSelectionListener(selectionListener:(String)->Unit) {
+        hangingSelectionListener = HangingListSelectionListener(selectionListener)
     }
     override fun onTouchEvent(event:MotionEvent):Boolean {
         when(event.action) {
@@ -124,7 +128,8 @@ class HangingListView(ctx:Context):View(ctx) {
             canvas.drawColor(Color.parseColor("#212121"))
             hangingList?.draw(canvas,paint)
             animator.update{
-                hangingList?.update{
+                hangingList?.update{index ->
+                    view.hangingSelectionListener?.selectionListener?.invoke(view.texts[index])
                     animator.stop()
                 }
             }
@@ -175,4 +180,5 @@ class HangingListView(ctx:Context):View(ctx) {
             activity.setContentView(view)
         }
     }
+    data class HangingListSelectionListener(var selectionListener:(String)->Unit)
 }
