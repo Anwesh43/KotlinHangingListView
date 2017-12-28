@@ -33,4 +33,20 @@ class HangingListView(ctx:Context):View(ctx) {
         }
         fun handleTap(x:Float,y:Float):Boolean = x>=this.x-r && x<=this.x+r && y>=this.oy-r && y<=this.oyy+r
     }
+    data class HangingItemState(var scale:Float = 0f,var dir:Float = 0f) {
+        fun startUpdating(startcb:()->Unit) {
+            dir = 1f
+            scale = 0f
+        }
+        fun execute(cb:(Float)->Unit) {
+            cb(scale)
+        }
+        fun update() {
+            scale += dir*0.1f
+            if(scale > 1) {
+                scale = 1f
+                dir = 0f
+            }
+        }
+    }
 }
