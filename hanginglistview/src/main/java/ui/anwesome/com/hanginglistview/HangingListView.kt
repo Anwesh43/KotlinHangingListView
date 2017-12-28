@@ -11,13 +11,17 @@ import android.graphics.*
 class HangingListView(ctx:Context):View(ctx) {
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     val texts:LinkedList<String> = LinkedList()
+    val renderer = HangingListRenderer(this)
     override fun onDraw(canvas:Canvas) {
-
+        renderer.render(canvas,paint)
+    }
+    fun addText(text:String) {
+        texts.add(text)
     }
     override fun onTouchEvent(event:MotionEvent):Boolean {
         when(event.action) {
             MotionEvent.ACTION_DOWN -> {
-
+                renderer.handleTap(event.x,event.y)
             }
         }
         return true
