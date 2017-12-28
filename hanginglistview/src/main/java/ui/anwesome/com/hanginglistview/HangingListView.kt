@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import android.graphics.*
 class HangingListView(ctx:Context):View(ctx) {
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    val texts:LinkedList<String> = LinkedList<>()
+    val texts:LinkedList<String> = LinkedList()
     override fun onDraw(canvas:Canvas) {
 
     }
@@ -31,7 +31,7 @@ class HangingListView(ctx:Context):View(ctx) {
             canvas.drawLine(0f,0f,0f,y-oy,paint)
             canvas.restore()
         }
-        fun handleTap(x:Float,y:Float):Boolean = x>=this.x-r && x<=this.x+r && y>=this.oy-r && y<=this.oyy+r
+        fun handleTap(x:Float,y:Float):Boolean = x>=this.x-r && x<=this.x+r && y>=this.oy-r && y<=this.oy+r
     }
     data class HangingItemState(var scale:Float = 0f,var dir:Float = 0f) {
         fun startUpdating(startcb:()->Unit) {
