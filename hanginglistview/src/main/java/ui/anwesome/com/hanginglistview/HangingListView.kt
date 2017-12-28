@@ -120,4 +120,29 @@ class HangingListView(ctx:Context):View(ctx) {
             })
         }
     }
+    data class HangingViewAnimator(var view:HangingListView,var animated:Boolean = false) {
+        fun update(updatecb:()->Unit) {
+            if(animated) {
+                updatecb()
+                try {
+                    Thread.sleep(50)
+                    view.invalidate()
+                }
+                catch(ex:Exception) {
+
+                }
+            }
+        }
+        fun startUpdating() {
+            if(!animated) {
+                animated = true
+                view.postInvalidate()
+            }
+        }
+        fun stop() {
+            if(animated) {
+                animated = false
+            }
+        }
+    }
 }
