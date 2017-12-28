@@ -100,4 +100,24 @@ class HangingListView(ctx:Context):View(ctx) {
             }
         }
     }
+    data class HangingListRenderer(var view:HangingListView,var time:Int = 0) {
+        var hangingList:HangingList?=null
+        fun render(canvas:Canvas,paint:Paint) {
+            if(time == 0) {
+                val w = canvas.width.toFloat()
+                val h = canvas.height.toFloat()
+                hangingList = HangingList(w,h,view.texts)
+            }
+            hangingList?.draw(canvas,paint)
+            hangingList?.update{
+
+            }
+            time++
+        }
+        fun handleTap(x:Float,y:Float) {
+            hangingList?.handleTap(x,y,{
+
+            })
+        }
+    }
 }
