@@ -108,7 +108,11 @@ class HangingListView(ctx:Context):View(ctx) {
                 val w = canvas.width.toFloat()
                 val h = canvas.height.toFloat()
                 hangingList = HangingList(w,h,view.texts)
+                paint.color = Color.parseColor("#ef5350")
+                paint.strokeWidth = Math.min(w,h)/40
+                paint.strokeCap = Paint.Cap.ROUND
             }
+            canvas.drawColor(Color.parseColor("#212121"))
             hangingList?.draw(canvas,paint)
             animator.update{
                 hangingList?.update{
